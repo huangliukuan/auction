@@ -1,0 +1,183 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/guide/index",
+			"style": {
+				"navigationBarTitleText": "指南"
+			}
+		},
+		{
+			"path": "pages/bale/index",
+			"style": {
+				"navigationBarTitleText": "套餐"
+			}
+		},
+		{
+			"path": "pages/team/index",
+			"style": {
+				"navigationBarTitleText": "团队"
+			}
+		},
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	],
+	"subPackages":[{
+			"root": "pages/question",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "常见问题"
+				}
+			}]
+		},{
+			"root": "pages/teamdetail",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "团队详情"
+				}
+			}]
+		},{
+			"root": "pages/baledetail",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "套餐详情"
+				}
+			}]
+		},{
+			"root": "pages/ordersubmit",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "订单确认"
+				}
+			}]
+		},{
+			"root": "pages/about",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "关于我们"
+				}
+			}]
+		},{
+			"root": "pages/feedback",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "意见反馈"
+				}
+			}]
+		},{
+			"root": "pages/coupon",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "优惠券"
+				}
+			}]
+		},{
+			"root": "pages/message",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "通知消息"
+				}
+			}]
+		},{
+			"root": "pages/compensation",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "赔付金"
+				}
+			} ]
+		},{
+			"root": "pages/account",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "收款账户"
+				}
+			} ]
+		},{
+			"root": "pages/myorder", 
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "我的订单"
+				}
+			} ]
+		},{
+			"root": "pages/assess", 
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "订单评价"
+				}
+			} ]
+		},{
+			"root": "pages/tender", 
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "我的标书"
+				}
+			} ]
+		},{
+			"root": "pages/rich", 
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": ""
+				}
+			} ]
+		}],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "车牌拍卖",
+		"navigationBarBackgroundColor": "#74c0fc",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar":{
+		"color":"#707070",
+		"selectedColor":"#4dabf7",
+		"list":[{
+			"pagePath":"pages/index/index",
+			"text":"首页",
+			"iconPath":"static/tabbar/home.png",
+			"selectedIconPath":"static/tabbar/home-select.png"
+		},{
+			"pagePath":"pages/guide/index",
+			"text":"指南",
+			"iconPath":"static/tabbar/guide.png",
+			"selectedIconPath":"static/tabbar/guide-select.png"
+		},{
+			"pagePath":"pages/bale/index",
+			"text":"套餐",
+			"iconPath":"static/tabbar/bale.png",
+			"selectedIconPath":"static/tabbar/bale-select.png"
+		},{
+			"pagePath":"pages/team/index",
+			"text":"团队",
+			"iconPath":"static/tabbar/team.png",
+			"selectedIconPath":"static/tabbar/team-select.png"
+		},{
+			"pagePath":"pages/mine/index",
+			"text":"我的",
+			"iconPath":"static/tabbar/mine.png",
+			"selectedIconPath":"static/tabbar/mine-select.png"
+		}]
+	}
+}
