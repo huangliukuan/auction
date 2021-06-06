@@ -17,7 +17,7 @@
 				</view>
 			</view>
 			
-			<image  class="twoTender" src="https://i.loli.net/2021/06/01/fKOCzEVwL7vXHdP.jpg" mode="widthFix" @click="toPath" ></image>
+			<!-- <image  class="twoTender" src="https://i.loli.net/2021/06/01/fKOCzEVwL7vXHdP.jpg" mode="widthFix" @click="toPath" ></image> -->
 
 			<lk-bale :bale="bale"></lk-bale>
 

@@ -63,7 +63,7 @@
 			<view class="tabSelItem">
 				<view class="label">合同协议</view>
 				<view class="tabSeltxt flex">
-					<view class="">下单标书已阅读并同意《代拍委托协议》</view>
+					<view class="" @click="toPath" >下单标书已阅读并同意《代拍委托协议》</view>
 					<view class="iconfont arrow"></view>
 				</view>
 			</view>
@@ -85,9 +85,7 @@
 				acttab: 0,
 				type: "",
 				teamArr: [],
-				teams: [{
-					id:0
-				}],
+				teams: [],
 				teami: 0,
 				tenderList: [],
 				tenderi: -1,
@@ -106,25 +104,38 @@
 			richTexts: {
 				type: String,
 				default: ''
-			}
+			},
+			tid:{
+				type:String,
+				default:""
+			},
 		},
 		watch: {
 			richTexts(e) {
-				console.log(e, 2323);
 				this.richText = e;
+			},
+			tid(e){
+				
 			}
+		},
+		created() {
+			this.type = this.tablist[0].type
 		},
 		mounted() {
 			// 获取团队
 			this.$Bus.$on('teams', (e) => {
-				e.forEach((item) => {
+				e.forEach((item,index) => {
+					if(this.tid != '' && this.tid == item.id){
+						console.log(12132);
+						this.teami  = index;
+					}
 					this.teamArr.push(item.team_name);
 					this.teams.push(item);
 				})
 			});
 			this.$Bus.$on("tender", (e) => {
 				this.tenderList = e
-			})
+			});
 		},
 		methods: {
 			changTab(e) {
@@ -169,11 +180,13 @@
 					invoice = this.invoice ;
 					this.$emit('orderData', {teami,tenderi,invoice})
 			},
+			toPath(){
+				uni.navigateTo({
+					url:"/pages/rich/index?t=3"
+				})
+			},
+		},
 
-		},
-		created() {
-			this.type = this.tablist[0].type
-		},
 		components: {
 			lkTender
 		}

@@ -1,7 +1,7 @@
 <template>
 	<view class="p20">
 		<view class="box">
-			<view class="title">{{tit}}</view>
+			<view class="title" v-if="tit != ''" >{{tit}}</view>
 			<u-parse v-if="richTxt" :content="richTxt"></u-parse>
 		</view>
 	</view>
@@ -31,28 +31,33 @@
 						type: 2
 					});
 					url = "guideDetail.html";
-				}else if(e.t == 2){
-					url = 'example.html'
+				} else if (e.t == 2) {
+					url = 'example.html';
+				} else if (e.t == 3) {
+					url = 'getProtocal.html';
 				}
 
 				await this.$utils.request({
 					url,
 					data,
 				}).then((res) => {
-					if(e.t == 1){
+					if (e.t == 1) {
 						uni.setNavigationBarTitle({
 							title: res.cont_title
 						});
 						_this.richTxt = _this.addUrl(res.desc);
 						_this.tit = res.cont_title;
-					}else if(e.t == 2){
+					} else if (e.t == 2) {
 						uni.setNavigationBarTitle({
 							title: res.title
 						});
 						_this.richTxt = _this.addUrl(res.content);
 						_this.tit = res.title;
+					} else if (e.t == 3) {
+						_this.tit = "";
+						_this.richTxt = _this.addUrl(res);
 					}
-					
+
 				})
 			},
 			// 富文本中图片和视频添加url地址

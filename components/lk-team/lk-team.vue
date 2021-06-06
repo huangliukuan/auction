@@ -1,7 +1,7 @@
 <template>
 	<view class="teamBox">
 		<view class="teams box" v-for="(item,index) in teamList" :key="index" @click="toPath"
-			data-url="/pages/teamdetail/index">
+			:data-url="'/pages/teamdetail/index?id='+item.id">
 			<view class="teamLeft ">
 				<view class="teamTop">
 					<image :src="url + item.logo" mode=""></image>

@@ -42,7 +42,7 @@
 					<view class="">优惠券</view>
 				</view>
 				<view class="iconItem">
-					<image src="../../static/tel.png" mode=""></image>
+					<image src="../../static/tel.png" @click="toCall" mode=""></image>
 					<view class="">客服电话</view>
 				</view>
 				<view class="iconItem" @click="toPath" data-url='../about/index'>
@@ -124,6 +124,13 @@
 
 			},
 			/*微信登录相关  end*/
+			
+			
+			toCall(){
+				uni.makePhoneCall({
+					phoneNumber:uni.getStorageSync('sys').kefu_tel
+				})
+			}
 
 		}
 	}

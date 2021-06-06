@@ -6,34 +6,13 @@
 				<image class="close" @click="close" src="../../static/close1.png" mode=""></image>
 			</view>
 			<view class="baleListBox">
-				<view class="baleItem actBaleItem">
-					<view class="baleItemTit">4800元低价套餐</view>
-					<view class="baleItemInfo">超值4800元套餐，6次不中赔付1000元</view>
+				<view class="baleItem" :class="selID == item.id ? 'actBaleItem':'' "  @click="selBale" :data-id="item.id" v-for="(item,index) in list" :key="index">
+					<view class="baleItemTit">{{item.tc_title}}</view>
+					<view class="baleItemInfo">{{item.tc_desc}}</view>
 				</view>
-				<view class="baleItem">
-					<view class="baleItemTit">4800元低价套餐</view>
-					<view class="baleItemInfo">超值4800元套餐，6次不中赔付1000元</view>
-				</view>
-				<view class="baleItem">
-					<view class="baleItemTit">4800元低价套餐</view>
-					<view class="baleItemInfo">超值4800元套餐，6次不中赔付1000元</view>
-				</view>
-				<view class="baleItem">
-					<view class="baleItemTit">4800元低价套餐</view>
-					<view class="baleItemInfo">超值4800元套餐，6次不中赔付1000元</view>
-				</view>
-				<view class="baleItem">
-					<view class="baleItemTit">4800元低价套餐</view>
-					<view class="baleItemInfo">超值4800元套餐，6次不中赔付1000元</view>
-				</view>
-				<view class="baleItem">
-					<view class="baleItemTit">4800元低价套餐</view>
-					<view class="baleItemInfo">超值4800元套餐，6次不中赔付1000元</view>
-				</view>
-				
 			</view>
 
-			<view class="btn">立即下单</view>
+			<view class="btn" @click="toPath" >立即下单</view>
 
 
 		</view>
@@ -41,14 +20,50 @@
 </template>
 
 <script>
-	export default{
-		data(){
-			return{
-				
+	export default {
+		data() {
+			return {
+				list:[],
+				selID:0,
 			}
 		},
-		methods:{
-			close(){
+		props:{
+			tid:{
+				type:String,
+				default:0
+			}
+		},
+		mounted() {
+			this.getData()
+		},
+		methods: {
+			async getData() {
+				let _this = this;
+				await _this.$utils.request({
+					url: 'tcList.html'
+				}).then((res)=>{
+					_this.list =res;
+				})
+			},
+			
+			selBale(e){
+				this.selID  = e.currentTarget.dataset.id;
+			},
+			
+			toPath(){
+				if(this.selID == 0){
+					uni.showToast({
+						title:"请选择套餐",
+						icon:"none"
+					})
+					return false;
+				}
+				uni.navigateTo({
+					url:`/pages/ordersubmit/index?id=${this.selID}&tid=${this.tid}&type=one`
+				})
+			},
+			
+			close() {
 				this.$emit('close', false)
 			}
 		}
@@ -62,58 +77,62 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%,-50%);
+		transform: translate(-50%, -50%);
 		background-color: #f1f1f1;
 		border-radius: 20rpx;
 		padding: 0 30rpx 30rpx;
 	}
-	.baleTitBox{
+
+	.baleTitBox {
 		height: 88rpx;
 		line-height: 88rpx;
 		text-align: center;
 		font-size: 36rpx;
 		position: relative;
 	}
-	.close{
+
+	.close {
 		width: 56rpx;
 		height: 56rpx;
 		position: absolute;
 		top: 15rpx;
 		right: 0;
 	}
-	
-	.baleListBox{
+
+	.baleListBox {
 		max-height: 70vh;
 		overflow-y: auto;
 	}
-	.baleItem{
+
+	.baleItem {
 		background-color: #fff;
 		border-radius: 10rpx;
 		padding: 20rpx;
 		margin-bottom: 20rpx;
 	}
-	
-	
-	.baleItemTit{
+
+
+	.baleItemTit {
 		color: #d9480f;
 	}
-	.baleItemInfo{
+
+	.baleItemInfo {
 		margin-top: 20rpx;
 		font-size: 26rpx;
 		color: #999;
 	}
-		
-	.actBaleItem{
-		background-color:#a5d8ff ;
+
+	.actBaleItem {
+		background-color: #a5d8ff;
 		color: #FFFFFF;
 	}
-	
-	 .actBaleItem .baleItemTit,
-	 .actBaleItem .baleItemInfo{
+
+	.actBaleItem .baleItemTit,
+	.actBaleItem .baleItemInfo {
 		color: #FFFFFF;
 	}
-	
-	.btn{
+
+	.btn {
 		width: 60%;
 		height: 86rpx;
 		line-height: 86rpx;

@@ -16,7 +16,7 @@
 					<view class="" @click="oShow" data-type="ali" >操作</view>
 					<view class="operat" v-if="operatShow == 'ali' ">
 						<view class="bb1"  @click="showUp" :data-item="alipay">编辑</view>
-						<view class="">删除</view>
+						<view class=""  @click="delData" data-type="ali">删除</view>
 					</view>
 				</view>
 			</view>
@@ -36,7 +36,7 @@
 					<view class="" @click="oShow" data-type="wx" >操作</view>
 					<view class="operat" v-if="operatShow == 'wx' ">
 						<view class="bb1"  @click="showUp" :data-item="wechat">编辑</view>
-						<view class="">删除</view>
+						<view class=""  @click="delData" data-type="wx">删除</view>
 					</view>
 				</view>
 			</view>
@@ -56,7 +56,7 @@
 					<view class="" @click="oShow" data-type="bank"   >操作</view>
 					<view class="operat" v-if="operatShow == 'bank' ">
 						<view class="bb1" @click="showUp" :data-item="bank">编辑</view>
-						<view class="">删除</view>
+						<view class=""  @click="delData" data-type="bank">删除</view>
 					</view>
 				</view>
 			</view>
@@ -123,6 +123,39 @@
 			this.getData()
 		},
 		methods: {
+			// 账号删除
+			delData(e){
+				let _this = this;
+				uni.showModal({
+					title:"删除提示",
+					content:"确定删除",
+					async success(res) {
+						if(res.confirm){
+							await _this.$utils.request({
+								url:'delAccount.html',
+								method:"POST",
+								data:{
+									uid:_this.uid,
+									type:e.currentTarget.dataset.type
+								}
+							}).then((res)=>{
+								uni.showToast({
+									title:"删除成功",
+								})
+								_this.getData();
+								_this.operatShow = '';
+							})
+						}else{
+							uni.showToast({
+								title:"取消删除",
+								icon:'none'
+							})
+						}
+					}
+				})
+			},
+			
+			// 获取账号
 			async getData() {
 				await this.$utils.request({
 					url: 'account.html',
@@ -180,6 +213,7 @@
 						title:"操作成功!",
 					})
 					t.addShow = false;
+					t.operatShow = '';
 					t.getData();
 				})
 				

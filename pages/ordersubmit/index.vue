@@ -16,11 +16,11 @@
 			</view>
 		</view>
 
-		<lk-tabbox :tablist='tablist' v-on:orderData="orderData"></lk-tabbox>
+		<lk-tabbox :tablist='tablist' v-on:orderData="orderData" :tid="tid"></lk-tabbox>
 
 		<view class="fixedBtm">
 			<view class="">拍中后您需要支付 <text class="allprice">￥{{detail.tc_price}}</text></view>
-			<view class="btn" @click="orderSubmit" :data-id="detail.id">立即下单</view>
+			<view class="btn" @click="orderSubmit" :data-id="detail.id"  >立即下单</view>
 		</view>
 
 	</view>
@@ -52,11 +52,13 @@
 					tenderi: -1,
 					invoice: false
 				},
+				tid:"",
 			}
 		},
 		onLoad(e) {
 			this.type = e.type;
 			this.getData(e.id);
+			e.tid && (this.tid = e.tid);
 		},
 		methods: {
 			async getData(id) {
