@@ -49,7 +49,7 @@
 	}
 
 	.logoImg {
-		width: 160rpx;
+		width: 74rpx;
 		height: 74rpx;
 	}
 

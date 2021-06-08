@@ -36,6 +36,13 @@
 		methods: {
 			async submit() {
 				let _this = this;
+				if(!_this.content){
+					uni.showToast({
+						title:"请输入反馈内容",
+						icon:"none"
+					})
+					return false;
+				}
 				await _this.$utils.request({
 					url: 'feedback.html',
 					method: "POST",

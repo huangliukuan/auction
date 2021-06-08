@@ -34,6 +34,7 @@
 		width: 100%;
 		min-height: 100%;
 		background-image: linear-gradient(to bottom, #74c0fc 0%, #e7f5ff 200px, #f1f1f1 100%);
+		font-size: 32rpx;
 	}
 
 	view {

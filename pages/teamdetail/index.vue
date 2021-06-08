@@ -1,16 +1,16 @@
 <template>
 	<view class="teamdetail p20">
-		<lk-team></lk-team>
-		<lk-tabbox :tablist="tablist"></lk-tabbox>
-		<lk-comment></lk-comment>
+		<lk-team :teamList="teamList" :ci="ci"></lk-team>
+		<lk-tabbox :tablist="tablist" :richTexts="richText"></lk-tabbox>
+		<lk-comment :comment="comment" v-if="comment.length>0"></lk-comment>
 
-		<view class="box moreBox">
+		<view class="box moreBox" v-if="question.length > 0">
 			<view class="flex">
 				<view class="iconfont news"></view>
 				<view>常见问题</view>
 			</view>
 		</view>
-		<lk-question></lk-question>
+		<lk-question :question="question"></lk-question>
 
 
 
@@ -36,25 +36,55 @@
 		data() {
 			return {
 				showMask: false,
+				richText:"",
 				tablist: [{
 					text: "团队介绍",
-					type: "text"
+					type: "text",
+					content:""
 				}, {
 					text: "中标走势",
-					type: "img"
+					type: "img",
+					img:""
 				}],
-				tid:0
+				tid:0,
+				detail:{},
+				comment:[],
+				question:[],
+				teamList:[],
+				ci:"4",
 			}
 		},
 		onLoad(e) {
 			this.getData(e.id);
+			this.ci = e.ci;
 			this.tid = e.id;
 		},
 		methods: {
-			async getData() {
+			async getData(e) {
 				let _this = this;
 				await _this.$utils.request({
-					url: 'tcList.html'
+					url: 'teamDetail.html',
+					data:{
+						id:e
+					}
+				}).then((res)=>{
+					
+					this.detail = res;
+					this.tablist[0].content = res.intro;
+					this.richText =  res.intro;
+					this.tablist[1].img = res.trend;
+					this.comment = res.comment;
+					this.question = res.problem;
+					this.teamList = [].concat([],{
+						id:res.id,
+						logo:res.logo,
+						team_name:res.team_name,
+						team_tag:res.team_tag.join("，"),
+						team_price_start:res.team_price_start,
+						team_price_end:res.team_price_end,
+						user_num:res.user_num,
+						pros:res.pros
+					})
 				})
 			},
 
@@ -88,6 +118,7 @@
 
 		.moreBox {
 			margin-bottom: 20rpx;
+			margin-top: 20rpx;
 			height: 108rpx;
 			line-height: 68rpx;
 			display: flex;

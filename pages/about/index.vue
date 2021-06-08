@@ -1,9 +1,11 @@
 <template>
 	<view class="about">
-		<image class="logo" src="../../static/logo.png" mode=""></image>
-		<view class="name">车牌代拍</view>
+		<image class="logo" :src="url + about.logo" mode=""></image>
+		<view class="name">{{about.sitename}}</view>
 		<view class="">v1.0.1版本</view>
-		<view class="box">很开心，这么快就帮我拍到了，非常的神速呀，已经强烈推荐给同事了，希望他们也能在这里早点拍中</view>
+		<view class="box">
+			<rich-text :nodes="about.protocol"></rich-text>
+		</view>
 	</view>
 </template>
 
@@ -11,11 +13,15 @@
 	export default {
 		data() {
 			return {
-
+				about:{},
+				url:this.$utils.url
 			}
 		},
+		onShow() {
+			this.about = uni.getStorageSync("sys");
+		},
 		methods: {
-
+			
 		},
 		components: {
 

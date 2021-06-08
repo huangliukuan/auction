@@ -1,7 +1,7 @@
 <template>
 	<view class="teamBox">
-		<view class="teams box" v-for="(item,index) in teamList" :key="index" @click="toPath"
-			:data-url="'/pages/teamdetail/index?id='+item.id">
+		<view class="teams box" :class=" 'teams'+ci " v-for="(item,index) in teamList" :key="index" @click="toPath"
+			:data-url="'/pages/teamdetail/index?id='+item.id "  :data-index="index">
 			<view class="teamLeft ">
 				<view class="teamTop">
 					<image :src="url + item.logo" mode=""></image>
@@ -43,6 +43,10 @@
 			teamList: {
 				type: Array,
 				default: () => []
+			},
+			ci:{
+				type:String,
+				default:"4"
 			}
 		},
 		watch: {
@@ -57,10 +61,11 @@
 		},
 		methods: {
 			toPath(e) {
-				let user = uni.getStorageSync("user");
+				let user = uni.getStorageSync("user"),
+				index =  e.currentTarget.dataset.index % 3;
 				if (user) {
 					uni.navigateTo({
-						url: e.currentTarget.dataset.url
+						url: e.currentTarget.dataset.url +"&ci="+index
 					})
 				} else {
 					uni.showToast({
@@ -86,7 +91,7 @@
 		margin-bottom: 20rpx;
 	}
 
-	.teams1,
+	.teams.teams0,
 	.teams:nth-child(3n+1) {
 		background-image: linear-gradient(100deg, #3da2f2 0, #68cff5 100%);
 
@@ -95,7 +100,7 @@
 		}
 	}
 
-	.teams2,
+	.teams.teams1,
 	.teams:nth-child(3n+2) {
 		background-image: linear-gradient(100deg, #fa5c9d 0, #ffa76c 100%);
 
@@ -104,7 +109,7 @@
 		}
 	}
 
-	.teams0,
+	.teams.teams2,
 	.teams:nth-child(3n+3) {
 		background-image: linear-gradient(100deg, #5688f7 0, #f283fd 100%);
 
