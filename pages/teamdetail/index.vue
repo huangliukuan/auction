@@ -1,6 +1,6 @@
 <template>
 	<view class="teamdetail p20">
-		<lk-team :teamList="teamList" :ci="ci"></lk-team>
+		<lk-team :teamList="teamList" :ci="ci" :path="false"></lk-team>
 		<lk-tabbox :tablist="tablist" :richTexts="richText"></lk-tabbox>
 		<lk-comment :comment="comment" v-if="comment.length>0"></lk-comment>
 

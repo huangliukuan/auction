@@ -1,6 +1,6 @@
 <template>
-	<view class="bales mb20">
-		<view class="box baleItem" v-for="(item,index) in bale" :key="index"  @click="toPath" :data-url="'/pages/baledetail/index?type=one&id='+item.id">
+	<view class="bales ">
+		<view class="box baleItem mb20" v-for="(item,index) in bale" :key="index"  @click="toPath" :data-url="'/pages/baledetail/index?type=one&id='+item.id">
 			<view class="baleTop">
 				<view class="baleLeft">
 					<view class="baleTit">{{item.tc_title}}</view>

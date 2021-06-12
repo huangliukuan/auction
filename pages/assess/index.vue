@@ -5,34 +5,76 @@
 				<text class="">评分：</text>
 				<text class="iconfont star " :class=" isLight >= index ? 'light' : '' " v-for="(item,index) in 5"  :key='index' :data-index="index" @click="tabStar"  ></text>
 			</view>
-			<textarea class="textArea" value="" maxlength="500" placeholder="留下您的感受,让更多人知道" />
+			<textarea class="textArea" value="" @input="textInput" maxlength="500" placeholder="留下您的感受,让更多人知道" />
 		</view>
 		<view class="box feedImg">
 			<view class="feedbackTit">上传图片</view>
 			<view class="feedImgBox">
-				<view class="imgItem">
-					<image class="close" src="../../static/close1.png" mode=""></image>
-					<image src="../../static/logo.png" mode=""></image>
+				<view class="imgItem" v-for="(item,index) in img" :key="index">
+					<image class="close" @click="delImg()" :data-i="index" src="../../static/close1.png" mode=""></image>
+					<image :src="url + item" mode=""></image>
 				</view>
-				<view class="addImg">
+				<view class="addImg" @click="addImg">
 					<view class="iconfont camera"></view>
 					<view class="">添加图片</view>
 				</view>
 			</view>
 		</view>
 		
-		<view class="submit">提交 </view>
+		<view class="submit" @click="submit">提交 </view>
 	</view>
 </template>
 
 <script>
+	import uploadFile from "../../core/upload.js"
+	
 	export default {
 		data() {
 			return {
-				isLight:4
+				url:this.$utils.url,
+				uid: uni.getStorageSync("user").id,
+				isLight:4,
+				oid:0,
+				content:'',
+				img:[],
 			}
 		},
+		onLoad(o) {
+			this.oid = o.id;
+		},
 		methods: {
+			// 提交
+			async submit(){
+				let _this= this;
+				
+				if(!_this.content){
+					uni.showToast({
+						title:"评价内容为空!",
+						icon:"none"
+					})
+					return false;
+				}
+			  await	_this.$utils.request({
+					url:"comment.html",
+					method:"POST",
+					data:{
+						oid:_this.oid,
+						content:_this.content,
+						uid:_this.uid,
+						img:_this.img,
+						star:_this.isLight
+					}
+				}).then((res)=>{
+					uni.showToast({
+						title:"谢谢您的评价！"
+					})
+					setTimeout(()=>{
+						uni.navigateBack()
+					},2000)
+				})
+			},
+			
+			// 选择星星
 			lightStar(e){
 				let x = e.changedTouches[0].pageX,
 				y = e.changedTouches[0].pageY;
@@ -46,6 +88,49 @@
 					}
 				}
 			},
+			textInput(e){
+				this.content = e.detail.value;
+			},
+			
+			addImg() {
+				let t = this;
+				uni.chooseImage({
+					count:1,
+					sourceType: ['album', 'camera'],
+					success(res1) {
+						uni.showLoading({
+							title:"上传中..."
+						})
+						res1.tempFilePaths.forEach((item, index) => {
+							uploadFile({
+								filePath: item
+							}).then((res) => {
+								let img = t.img;
+								res = JSON.parse(res.data)
+								t.img = res.data;
+								if(index >= res1.tempFilePaths.length-1){
+									uni.hideLoading()
+								}
+							})
+							
+						})
+						
+					},
+					fail(err) {
+						console.log(err);
+					},
+				})
+			
+			},
+			//删除图片
+			delImg(e){
+				let t = this, i = e.currentTarget.dataset.i,
+				img = t.img;
+				img.splice(i,1);
+				this.img = img;
+			},
+			
+			
 			tabStar(e){
 				this.isLight = e.currentTarget.dataset.index;
 			}

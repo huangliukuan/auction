@@ -1,10 +1,12 @@
 <template>
 	<view class="message">
-		<view class="msgItem">
-			比如导航栏navbar组件，会自动处理不同端的状态栏；比如swiperaction组件，在app和微信小程序上会使用交互体验更好的wxs技术，但在不支持wxs的其他小程序端会使用js模拟类似效果。
+		<view class="nodata"v-if="list.length<1">
+			<image src="../../static/nodata.png" mode=""></image>
+			<view class="">暂无消息</view>
 		</view>
-		<view class="msgItem all">
-			比如导航栏navbar组件，会自动处理不同端的状态栏；比如swiperaction组件，在app和微信小程序上会使用交互体验更好的wxs技术，但在不支持wxs的其他小程序端会使用js模拟类似效果。
+		<view class="msgItem all" v-for="(item,index) in list" :key="index">
+			<view class="times">{{item.addtime}}</view>
+			<view class="">{{item.content}}</view>
 		</view>
 	</view>
 </template>
@@ -13,11 +15,21 @@
 	export default {
 		data() {
 			return {
-
+				list:[]
 			}
 		},
+		onShow() {
+			this.getData()
+		},
 		methods: {
-
+			async getData(){
+				let _this = this;
+				await _this.$utils.request({
+					url:"notice.html"
+				}).then((res)=>{
+					_this.list = res;
+				})
+			}
 		},
 		components: {
 
@@ -53,6 +65,9 @@
 				text-overflow: ellipsis;
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
+			}
+			.times{
+				text-align: right;
 			}
 		}
 	}

@@ -16,7 +16,7 @@
 			</view>
 		</view>
 
-		<lk-tabbox :tablist='tablist' v-on:orderData="orderData" :tid="tid"></lk-tabbox>
+		<lk-tabbox :tablist='tablist' v-on:orderData="orderData" :payoutTxt="payoutTxt" :tid="tid"></lk-tabbox>
 
 		<view class="fixedBtm">
 			<view class="">拍中后您需要支付 <text class="allprice">￥{{detail.tc_price}}</text></view>
@@ -35,14 +35,17 @@
 				detail: {},
 				tablist: [{
 					text: "订单信息",
-					type: "sel"
+					type: "sel",
 				}, {
 					text: "套餐介绍",
-					type: "text"
+					type: "text",
+					content:''
 				}, {
 					text: "注意事项",
-					type: "text"
+					type: "text",
+					content:''
 				}],
+				payoutTxt:'',
 				type: 'one',
 				uid: uni.getStorageSync("user").id,
 				team: [],
@@ -71,6 +74,7 @@
 					}
 				}).then((res) => {
 					this.detail = res.detail;
+					this.payoutTxt = res.detail.tc_num_desc;
 					this.tablist[1].content = res.detail.tc_content;
 					this.tablist[2].content = res.detail.tc_note;
 					this.team = res.team;

@@ -51,7 +51,7 @@
 			<view class="tabSelItem">
 				<view class="label">赔付说明</view>
 				<view class="tabSeltxt flex">
-					<view class="">6次不中赔付1000元</view>
+					<view class="">{{payoutTxt}}</view>
 				</view>
 			</view>
 			<view class="tabSelItem">
@@ -109,6 +109,10 @@
 				type:String,
 				default:""
 			},
+			payoutTxt:{
+				type:String,
+				default:""
+			}
 		},
 		watch: {
 			richTexts(e) {

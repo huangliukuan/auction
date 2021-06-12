@@ -4,7 +4,7 @@
 		<view class="name">{{about.sitename}}</view>
 		<view class="">v1.0.1版本</view>
 		<view class="box">
-			<rich-text :nodes="about.protocol"></rich-text>
+			<view class="">{{about.about_us}}</view>
 		</view>
 	</view>
 </template>

@@ -1,16 +1,16 @@
 <template>
 	<view class="compensation p20 ">
 		<view class="comTop box mb20 tc">
-			<view class="comTit">总金额 <text class="comPrice">0元</text> </view>
+			<view class="comTit">总金额 <text class="comPrice">{{all_money}}元</text> </view>
 			<view class="conInfo">
 				<view class="infoItem">
 					<view class="">已提现</view>
-					<view class="alPrice">0元</view>
+					<view class="alPrice">{{draw_money}}元</view>
 				</view>
 				<view class="line"></view>
 				<view class="infoItem">
 					<view class="">待赔付</view>
-					<view class="arPrice">0元</view>
+					<view class="arPrice">{{wait_money}}元</view>
 				</view>
 			</view>
 		</view>
@@ -18,21 +18,17 @@
 
 		<view class="box">
 			<view class="record">赔付记录</view>
-			<view class="recordItem">
-				<view class="">
-					<view class="">官方优选</view>
-					<view class="times">2020-02-02 12:00</view>
+			<block v-if="list.length > 0">
+				<view class="recordItem"  v-for="(item,index) in list" :key="index">
+					<view class="">
+						<view class="">{{item.tc_title}}</view>
+						<view class="times">{{item.pftime}}</view>
+					</view>
+					<view class="rPrice">{{item.out_total}}元</view>
 				</view>
-				<view class="rPrice">400元</view>
-			</view>
-			<view class="recordItem">
-				<view class="">
-					<view class="">官方优选</view>
-					<view class="times">2020-02-02 12:00</view>
-				</view>
-				<view class="rPrice">400元</view>
-			</view>
-			<view class="norecord">暂无记录</view>
+			</block>
+			
+			<view v-else class="norecord">暂无记录</view>
 		</view>
 	</view>
 </template>
@@ -41,11 +37,31 @@
 	export default {
 		data() {
 			return {
-
+				uid:uni.getStorageSync("user").id,
+				all_money:0,
+				draw_money:0,
+				wait_money:0,
+				list:[],
 			}
 		},
+		onShow() {
+			this.getData();
+		},
 		methods: {
-
+			async getData(){
+				let _this = this;
+			  await	_this.$utils.request({
+					url:'compensation.html',
+					data:{
+						uid:_this.uid,
+					}
+				}).then((res)=>{
+					_this.all_money = res.all_money;
+					_this.draw_money = res.draw_money;
+					_this.wait_money = res.wait_money;
+					_this.list = res.list;
+				})
+			}
 		},
 		components: {
 

@@ -1,7 +1,7 @@
 <template>
 	<view class="teamBox">
 		<view class="teams box" :class=" 'teams'+ci " v-for="(item,index) in teamList" :key="index" @click="toPath"
-			:data-url="'/pages/teamdetail/index?id='+item.id "  :data-index="index">
+			:data-url="'/pages/teamdetail/index?id='+item.id " :data-index="index">
 			<view class="teamLeft ">
 				<view class="teamTop">
 					<image :src="url + item.logo" mode=""></image>
@@ -44,9 +44,13 @@
 				type: Array,
 				default: () => []
 			},
-			ci:{
-				type:String,
-				default:"4"
+			ci: {
+				type: String,
+				default: "4"
+			},
+			path: {
+				type: Boolean,
+				default: true
 			}
 		},
 		watch: {
@@ -61,17 +65,19 @@
 		},
 		methods: {
 			toPath(e) {
-				let user = uni.getStorageSync("user"),
-				index =  e.currentTarget.dataset.index % 3;
-				if (user) {
-					uni.navigateTo({
-						url: e.currentTarget.dataset.url +"&ci="+index
-					})
-				} else {
-					uni.showToast({
-						title: "请先登录",
-						icon: "none"
-					})
+				if (this.path) {
+					let user = uni.getStorageSync("user"),
+						index = e.currentTarget.dataset.index % 3;
+					if (user) {
+						uni.navigateTo({
+							url: e.currentTarget.dataset.url + "&ci=" + index
+						})
+					} else {
+						uni.showToast({
+							title: "请先登录",
+							icon: "none"
+						})
+					}
 				}
 			}
 		}

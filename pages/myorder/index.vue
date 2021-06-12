@@ -9,7 +9,7 @@
 		</view>
 
 
-		<view class="nodata"v-if="list.length<1">
+		<view class="nodata" v-if="list.length<1">
 			<image src="../../static/nodata.png" mode=""></image>
 			<view class="">暂无订单</view>
 		</view>
@@ -26,23 +26,59 @@
 				<view class="orderInfo">发票：{{item.invoice == 0 ? "不开发票":"开发票" }}</view>
 				<view class="orderBtn">
 					<view class="btn qx" v-if="item.status == 0" @click="cancelOrder" :data-id="item.id">取消订单</view>
-					<view class="btn zf" v-if="item.status == 2">立即支付</view>
-					<view class="btn pj" v-if="item.status == 3" @click="toPath" data-url='../assess/index'>立即评价</view>
+					<view class="btn zf" v-if="item.status == 2" @click="toPaySubmit" :data-id="item.id"
+						:data-money="item.total">立即支付</view>
+					<view class="btn pj" v-if="item.status == 3 && item.is_comment != 1" @click="toPath"
+						:data-url="'../assess/index?id='+item.id">立即评价</view>
 				</view>
 			</view>
 		</view>
 
+		<view class="payBox" v-if="showPay">
+			<view class="payTit">订单确认</view>
+			<view class="dfjb payItem">
+				<view class="f28">总金额</view>
+				<view class="f28">{{allMoney}}元</view>
+			</view>
+			<picker mode="selector" :range="couponList" @change="selectorCoupon">
+				<view class="dfjb payItem">
+					<view class="f28">优惠券</view>
+
+					<view class="uni-input f28"> {{moneyList[cpi] ? `-${moneyList[cpi]}元` : noCoupon ? noCoupon :'请选择' }} </view>
+
+				</view>
+			</picker>
+			<view class="dfjb payItem">
+				<view class="">需支付</view>
+				<view class="">{{payMoney}}元</view>
+			</view>
+			<view class="dfjb payBtn">
+				<view class="w50 br1" @click="cancelPay">取消</view>
+				<view class="w50 fblue" @click="toPay">支付</view>
+			</view>
+		</view>
 
 	</view>
 </template>
 
 <script>
+	import wxPayInvoke from "../../core/jwx.js"
+
 	export default {
 		data() {
 			return {
 				ai: 0,
 				uid: uni.getStorageSync("user").id,
 				list: [],
+				showPay: false,
+				noCoupon:'',
+				couponArr:[],
+				couponList: [],
+				moneyList: [],
+				cpi: -1,
+				allMoney: 0,
+				payMoney: 0,
+				pid:0,
 			}
 		},
 		onShow() {
@@ -66,34 +102,110 @@
 					uni.hideLoading()
 				})
 			},
-			// 取消订单
-			cancelOrder(e){
+			
+			cancelPay(){
+				this.showPay = false;
+				this.cpi = -1;
+			},
+			
+			// 订单确认
+
+			toPaySubmit(e) {
+				this.getCoupon(e.currentTarget.dataset.id);
+				this.pid = e.currentTarget.dataset.id;
+				this.allMoney = e.currentTarget.dataset.money;
+				this.payMoney = e.currentTarget.dataset.money;
+				this.showPay = true;
+			},
+
+			async getCoupon(id) {
 				let _this = this;
-				
+				await _this.$utils.request({
+					url: 'paySelCoupon.html',
+					data: {
+						id,
+					}
+				}).then((res) => {
+					if (res.length > 0) {
+						let couponList = [] , moneyList=[];
+						_this.couponArr = res;
+						res.forEach((item, index) => {
+							couponList.push(`满${item.order_money}减${item.money}`);
+							moneyList.push( Number(item.money).toFixed(2))
+							_this.couponList = couponList;
+							_this.moneyList = moneyList;
+						})
+					}else{
+						_this.noCoupon = "无优惠券";
+					}
+				})
+			},
+
+			// 使用优惠券
+			selectorCoupon(e) {
+				this.cpi = e.detail.value;
+				this.payMoney = (this.allMoney - this.moneyList[e.detail.value]).toFixed(2);
+			},
+
+			// 下单
+			async toPay(e) {
+				let _this = this, coupon_id;
+				if(_this.cpi == -1){
+					coupon_id = ""
+				}else{
+					coupon_id = _this.couponArr[_this.cpi].id;
+				}
+				await _this.$utils.request({
+					url: 'getPrepayId.html',
+					method: "GET",
+					data: {
+						uid: _this.uid,
+						oid: _this.pid,
+						coupon_id,
+						amount:_this.payMoney
+					}
+				}).then((res) => {
+					return wxPayInvoke(res)
+				}).then((res) => {
+					this.showPay = false;
+					uni.showToast({
+						title: "支付成功",
+						icon: 'none'
+					})
+					setTimeout(() => {
+						this.getData()
+					}, 2000)
+				})
+			},
+
+			// 取消订单
+			cancelOrder(e) {
+				let _this = this;
+
 				uni.showModal({
-					title:"提示",
-					content:"确实取消？",
+					title: "提示",
+					content: "确实取消？",
 					async success(res) {
-						if(res.confirm){
+						if (res.confirm) {
 							await _this.$utils.request({
-								url:'cancelOrder.html',
-								method:"POST",
-								data:{
-									id:e.currentTarget.dataset.id
+								url: 'cancelOrder.html',
+								method: "POST",
+								data: {
+									id: e.currentTarget.dataset.id
 								}
-							}).then((res)=>{
+							}).then((res) => {
 								uni.showToast({
-									title:"取消成功"
+									title: "取消成功"
 								})
 								_this.getData()
 							})
 						}
 					}
 				})
-				
-				
+
+
 			},
-			
+
 			toPath(e) {
 				uni.navigateTo({
 					url: e.currentTarget.dataset.url
@@ -177,9 +289,54 @@
 				background-color: #4dabf7;
 			}
 
-			.pj {
+			.zf {
 				background-color: #ff922b;
 			}
+
+			.payBox {
+				width: 70%;
+				height: auto;
+				background-color: #fff;
+				box-shadow: 0 0 6rpx 6rpx #ccc;
+				border-radius: 20rpx;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.payTit {
+				height: 84rpx;
+				line-height: 84rpx;
+				text-align: center;
+				font-weight: bold;
+			}
+
+			.dfjb {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.payItem {
+				height: 84rpx;
+				line-height: 84rpx;
+				border-bottom: 1rpx solid #f1f1f1;
+				padding: 0 20rpx;
+			}
+
+			.payBtn {
+				height: 96rpx;
+				line-height: 96rpx;
+				text-align: center;
+				color: #333;
+			}
+
+
+			.fblue {
+				color: #4dabf7;
+			}
+
+
 		}
 	}
 </style>

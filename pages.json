@@ -3,31 +3,46 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "首页",
+				"app-plus":{
+						"titleNView":false // 去掉APP、H5的顶部导航
+					}
 			}
 		},
 		{
 			"path": "pages/guide/index",
 			"style": {
-				"navigationBarTitleText": "指南"
+				"navigationBarTitleText": "指南",
+				"app-plus":{
+						"titleNView":false // 去掉APP、H5的顶部导航
+					}
 			}
 		},
 		{
 			"path": "pages/bale/index",
 			"style": {
-				"navigationBarTitleText": "套餐"
+				"navigationBarTitleText": "套餐",
+				"app-plus":{
+						"titleNView":false // 去掉APP、H5的顶部导航
+					}
 			}
 		},
 		{
 			"path": "pages/team/index",
 			"style": {
-				"navigationBarTitleText": "团队"
+				"navigationBarTitleText": "团队",
+				"app-plus":{
+						"titleNView":false // 去掉APP、H5的顶部导航
+					}
 			}
 		},
 		{
 			"path": "pages/mine/index",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "我的",
+				"app-plus":{
+						"titleNView":false // 去掉APP、H5的顶部导航
+					}
 			}
 		}
 	],
@@ -36,7 +51,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "常见问题"
+					"navigationBarTitleText": "常见问题",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -44,7 +62,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "团队详情"
+					"navigationBarTitleText": "团队详情",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -52,7 +73,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "套餐详情"
+					"navigationBarTitleText": "套餐详情",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -60,7 +84,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "订单确认"
+					"navigationBarTitleText": "订单确认",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -68,7 +95,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "关于我们"
+					"navigationBarTitleText": "关于我们",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -76,7 +106,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "意见反馈"
+					"navigationBarTitleText": "意见反馈",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -84,7 +117,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "优惠券"
+					"navigationBarTitleText": "优惠券",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -92,7 +128,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "通知消息"
+					"navigationBarTitleText": "通知消息",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			}]
 		},{
@@ -100,7 +139,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "赔付金"
+					"navigationBarTitleText": "赔付金",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			} ]
 		},{
@@ -108,7 +150,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "收款账户"
+					"navigationBarTitleText": "收款账户",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			} ]
 		},{
@@ -116,7 +161,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "我的订单"
+					"navigationBarTitleText": "我的订单",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			} ]
 		},{
@@ -124,7 +172,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "订单评价"
+					"navigationBarTitleText": "订单评价",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			} ]
 		},{
@@ -132,7 +183,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": "我的标书"
+					"navigationBarTitleText": "我的标书",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			} ]
 		},{
@@ -140,7 +194,10 @@
 			"pages": [{
 				"path": "index",
 				"style": {
-					"navigationBarTitleText": ""
+					"navigationBarTitleText": "",
+					"app-plus":{
+							"titleNView":false // 去掉APP、H5的顶部导航
+						}
 				}
 			} ]
 		}],

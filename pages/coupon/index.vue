@@ -1,37 +1,36 @@
 <template>
 	<view class="coupon">
 		<view class="couponSeach">
-			<input type="text" value="" placeholder="请输入优惠券兑换码" />
-			<view class="couponBtn">兑换</view>
+			<input type="text" value="" @input="inputCode"  placeholder="请输入优惠券兑换码" />
+			<view class="couponBtn" @click="getCoupon">兑换</view>
+		</view>
+		
+		<view class="nodata" v-if="list.length <=0 ">
+			<image src="../../static/nodata.png" mode=""></image>
+			<view class="">暂无优惠券,赶紧参加活动领取吧</view>
 		</view>
 
-		<view class="p20">
-			<view class="couponItem">
+		<view class="p20" v-else>
+			<view class="couponItem"  :class="item.is_use == 0? '' : 'isUser' " v-for="(item,index) in list" :key="index">
 				<view class="couponTop flex">
 					<view class="couponLeft">
 						<view class="tit">代金券</view>
-						<view class="cPrice">1000元</view>
+						<view class="cPrice">{{item.money}}元</view>
 					</view>
 					<view class="couponRight">
-						<view class="">满5000减1000元</view>
-						<view class="">兑换码：SDEDF7SD8</view>
+						<view class="">{{item.title}}</view>
+						<view class="">兑换码：{{item.code}}</view>
 					</view>
 				</view>
 				<view class="lines">
 					<view class="round first"></view>
 					<view class="round last"></view>
 				</view>
-				<view class="times">有效期：2020-01-01至2022-12-31</view>
+				<view class="times">有效期：{{item.range_time}}</view>
 			</view>
 		</view>
-
-
-
-
-		<view class="nodata">
-			<image src="../../static/nodata.png" mode=""></image>
-			<view class="">暂无优惠券,赶紧参加活动领取吧</view>
-		</view>
+		
+	
 
 	</view>
 </template>
@@ -40,11 +39,48 @@
 	export default {
 		data() {
 			return {
-
+				uid:uni.getStorageSync("user").id,
+				code:'',
+				list:[],
 			}
 		},
+		onShow() {
+			this.getData();
+		},
 		methods: {
-
+			async getData(){
+				let _this = this;
+				await _this.$utils.request({
+					url:'myCoupon.html',
+					data:{
+						uid:_this.uid,
+					}
+				}).then((res)=>{
+					_this.list = res
+				})
+			},
+			
+			// 获取优惠券
+			async getCoupon(){
+				let _this = this;
+				await _this.$utils.request({
+					url:'getCoupon.html',
+					method:"POST",
+					data:{
+						uid:_this.uid,
+						code:_this.code
+					}
+				}).then((res)=>{
+					uni.showToast({
+						title:res.message
+					})
+					_this.getData()
+				})
+			},
+			
+			inputCode(e){
+				this.code = e.detail.value;
+			}
 		},
 		components: {
 
@@ -87,12 +123,20 @@
 				}
 			}
 
-			.couponItem {
+			.couponItem {	
 				border-radius: 10rpx;
 				padding: 20rpx;
 				color: #fff;
 				background: -webkit-linear-gradient(bottom, #d1913c, #ffd194);
 				background: linear-gradient(0deg, #d1913c, #ffd194);
+				margin-bottom: 20rpx;
+			}
+			
+			.isUser{
+				background: #ccc !important;
+				.cPrice{
+					color: #fff;
+				}
 			}
 
 			.couponLeft {
