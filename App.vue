@@ -3,14 +3,15 @@
 		
 		onLaunch: function() {
 			// uni.setStorageSync("user",{id:3})
-			let user = uni.getStorageSync('user');
-			this.isWeixin = this.isWechat()
-			if (this.isWeixin && user == void 0) {
-				this.checkWeChatCode() //通过微信官方接口获取code之后，会重新刷新设置的回调地址【redirect_uri】
-			}
+			
 		},
 		onShow: function() {
 			this.getData();
+			let user = uni.getStorageSync('user');
+			this.isWeixin = this.isWechat()
+			if (this.isWeixin && !user) {
+				this.checkWeChatCode() //通过微信官方接口获取code之后，会重新刷新设置的回调地址【redirect_uri】
+			}
 		},
 		methods:{
 			async getData(){

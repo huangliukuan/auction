@@ -32,7 +32,7 @@
 		</view>
 		
 		<view class="mask p20" v-if="show" @click="hideImg">
-			<image class="bigImg" :src="bigImg" mode=""></image>
+			<image class="bigImg" :src="bigImg" mode="aspectFit"></image>
 		</view>
 		
 	</view>
