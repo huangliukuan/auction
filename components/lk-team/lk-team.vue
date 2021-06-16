@@ -8,7 +8,7 @@
 					<view class="teamInfo">
 						<view class="f36">{{item.team_name}}</view>
 						<view class="teamClass">
-							<text v-for="(it,i) in item.team_tag" :key='i'>{{it}}</text>
+							<view v-for="(it,i) in item.team_tag" :key='i'>{{it}}</view>
 						</view>
 					</view>
 				</view>
@@ -135,18 +135,25 @@
 		border-radius: 50%;
 		margin-right: 10rpx;
 	}
+	
+	.teamInfo{
+		flex: 1;
+	}
 
 	.teamClass {
 		font-size: 26rpx;
 		color: #3da2f2;
 		margin-top: 14rpx;
+		display: flex;
+		flex-wrap: wrap;
 	}
 
-	.teamClass text {
+	.teamClass view {
 		padding: 4rpx 12rpx;
 		border-radius: 50rpx;
 		background-color: #fff;
 		margin-right: 6rpx;
+		margin-bottom: 6rpx;
 	}
 
 	.teamBottom {

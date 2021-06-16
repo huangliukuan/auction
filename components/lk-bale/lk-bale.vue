@@ -4,7 +4,7 @@
 			<view class="baleTop">
 				<view class="baleLeft">
 					<view class="baleTit">{{item.tc_title}}</view>
-					<view class="">{{item.tc_desc}}</view>
+					<view class="baleInfo">{{item.tc_desc}}</view>
 				</view>
 				<view class="baleBtn" @click.stop="toPath" :data-url="'/pages/ordersubmit/index?id='+item.id+'&type=one'" >立即下单</view>
 			</view>
@@ -63,6 +63,7 @@
 	}
 
 	.baleLeft {
+		width: 75%;
 		line-height: 56rpx;
 		color: #666;
 		font-size: 26rpx;
@@ -72,8 +73,18 @@
 		font-size: 36rpx;
 		color: #333;
 	}
+	
+	.baleInfo{
+		width: 95%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
 
 	.baleBtn {
+		width: 25%;
+		text-align: center;
 		font-size: 28rpx;
 		border-radius: 50rpx;
 		color: #fff;

@@ -15,8 +15,8 @@
 
 				<view class="nodata" v-else>暂无标书</view>
 
-
-
+				<view class="addTenderBox" @click="addTender">添加标书</view>
+				
 
 				<view class="fixedBtm">
 					<view class="btn cancel" @click="cancel">取消</view>
@@ -24,15 +24,22 @@
 				</view>
 			</view>
 		</view>
+		<lk-addtender v-on:close='close' v-if="isAdd"></lk-addtender>
 	</view>
 </template>
 
 <script>
+	import lkAddtender from "../lk-addtender/lk-addtender.vue"
+	
 	export default {
 		data() {
 			return {
 				actItem:-1,
+				isAdd:false,
 			}
+		},
+		components:{
+			lkAddtender
 		},
 		props: {
 			list: {
@@ -41,6 +48,12 @@
 			}
 		},
 		methods: {
+			addTender(){
+				this.isAdd = true;
+			},
+			close(e){
+				this.isAdd = false;
+			},
 			cancel() {
 				this.$emit("cancel", false)
 			},
@@ -104,7 +117,18 @@
 		background-color: #00BFFF;
 		color: #fff;
 	}
-
+	
+	.addTenderBox{
+		position: fixed;
+		top: 80%;
+		left: 70%;
+		box-shadow: 0 0 4rpx 4rpx #ccc;
+		border-radius: 50rpx;
+		font-size: 28rpx;
+		color: #333;
+		padding: 6rpx 16rpx;
+		background-color: #fff;
+	}
 
 	@keyframes move {
 		0% {
