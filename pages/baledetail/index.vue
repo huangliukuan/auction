@@ -108,7 +108,7 @@
 			},
 			toPath(e){
 				uni.navigateTo({
-					url:"pages/ordersubmit/index?id=1&type="+this.type
+					url:"pages/ordersubmit/index?id="+e.currentTarget.dataset.id+"&type="+this.type
 				})
 			},
 		},
